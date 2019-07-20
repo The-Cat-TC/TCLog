@@ -25,7 +25,9 @@ public class TCLog {
         // TODO code application logic here
         TCLogConsole tclc = new TCLogConsole();
         SQLLite sqlite = new SQLLite();
-        String Path = "";
+        String s = Seperator.fileseperator();
+        String dir = System.getProperty("user.home") + s + ".TC" + s;
+        String Path = dir;
         File path = new File(Path);
         if (!path.exists())
         {
@@ -41,9 +43,9 @@ public class TCLog {
                 + " Meldung text NOT NULL \n"
                 + ");";
         sqlite.createNewDatebase(Path, Name);
-        Connection conn = sqlite.connectetDatebase(Path, Name);
-        sqlite.createTabel(Path, Name, sql);
-        conn.close();
+        try (Connection conn = sqlite.connectetDatebase(Path, Name)) {
+            sqlite.createTabel(Path, Name, sql);
+        }
         Tabellog table = new Tabellog();
         Time t = new Time();
         

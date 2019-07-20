@@ -6,6 +6,7 @@
 package tclog;
 
 import de.tc.cat.the.sql.SQLLite;
+import de.tc.cat.the.system.Seperator;
 import de.tc.cat.the.system.Time;
 import java.sql.*;
 import java.util.ArrayList;
@@ -15,11 +16,12 @@ import javax.swing.table.DefaultTableModel;
  * @author the-c
  */
 public class Tabellog {
-    
+    String s = Seperator.fileseperator();
+    String dir = System.getProperty("user.home") + s + ".TC" + s;
     public void log (String datum, String zeit, String application, String type, String meldung)
     {
         SQLLite sqll = new SQLLite();
-        Connection connn = sqll.connectetDatebase("", "TCLog");
+        Connection connn = sqll.connectetDatebase(dir, "TCLog");
         String sql = "INSERT INTO Log(Datum,Zeit,Application,Type,Meldung) VALUES(?,?,?,?,?)";
         try (Connection conn = connn; PreparedStatement pstmt = conn.prepareStatement(sql);)
         {
@@ -39,7 +41,7 @@ public class Tabellog {
     {
         Time t = new Time();
         SQLLite sqll = new SQLLite();
-        Connection connn = sqll.connectetDatebase("", "TCLog");
+        Connection connn = sqll.connectetDatebase(dir, "TCLog");
         String sql = "INSERT INTO Log(Datum,Zeit,Application,Type,Meldung) VALUES(?,?,?,?,?)";
         try (Connection conn = connn; PreparedStatement pstmt = conn.prepareStatement(sql);)
         {
@@ -73,7 +75,7 @@ public class Tabellog {
     {
         DefaultTableModel dtm = new DefaultTableModel();
         SQLLite sql = new SQLLite();
-        Connection conn = sql.connectetDatebase("", "TCLog");
+        Connection conn = sql.connectetDatebase(dir, "TCLog");
         String sqll = "SELECT Id, Datum, Zeit, Application, Type, Meldung FROM Log";
 
         ArrayList<Integer> Id = new ArrayList<>();
@@ -117,7 +119,7 @@ public class Tabellog {
         ArrayList<String> list = new ArrayList<>();
         SQLLite sql2 = new SQLLite();
         String sql = "SELECT Id, Datum, Zeit, Application, Type, Meldung FROM Log";
-        try (Connection conn = sql2.connectetDatebase("", "TCLog");
+        try (Connection conn = sql2.connectetDatebase(dir, "TCLog");
              Statement stmt  = conn.createStatement();
              ResultSet rs    = stmt.executeQuery(sql)){
             
@@ -139,7 +141,7 @@ public class Tabellog {
     public void deleteDate()
     {
         SQLLite sqll = new SQLLite();
-        Connection connn = sqll.connectetDatebase("", "TCLog");
+        Connection connn = sqll.connectetDatebase(dir, "TCLog");
         String sql = "DELETE FROM Log WHERE Id = ?";
         String sql2 = "SELECT Id FROM Log";
         try (Connection conn = connn; PreparedStatement pstmt = conn.prepareStatement(sql);Statement stmt  = conn.createStatement();ResultSet rs    = stmt.executeQuery(sql2);)
