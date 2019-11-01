@@ -1,3 +1,0 @@
-Befor Sie die Anwedung Installieren Prüfen sie das Sie folgende Anforderungen erfüllen:
-
-Java Runtime Enverioment (JRE) 8 oder höher installiert ist.
