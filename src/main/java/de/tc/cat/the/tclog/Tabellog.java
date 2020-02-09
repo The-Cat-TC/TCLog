@@ -47,8 +47,8 @@ public class Tabellog {
         {
             if (args.length == 3)
             {
-                pstmt.setString(1, t.getDate());
-                pstmt.setString(2, t.getTime());
+                pstmt.setString(1, Time.getDate());
+                pstmt.setString(2, Time.getTime());
                 pstmt.setString(3, args[0].replaceAll("[_[^\\w\\däüöÄÜÖ.:\\+\\- ]]", ""));
                 pstmt.setString(4, args[1].replaceAll("[_[^\\w\\däüöÄÜÖ.:\\+\\- ]]", ""));
                 pstmt.setString(5, args[2].replaceAll("[_[^\\w\\däüöÄÜÖ.:\\+\\- ]]", ""));
