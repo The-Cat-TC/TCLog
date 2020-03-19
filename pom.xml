@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>de.tc.cat.the.tclog</groupId>
     <artifactId>TCLog</artifactId>
-    <version>1.0.6</version>
+    <version>1.0.7</version>
     <packaging>jar</packaging>
     <build>
         <plugins>
@@ -14,7 +14,7 @@
             </plugin>
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
-                <version>3.1.0</version>
+                <version>3.2.0</version>
                 <configuration>
                     <descriptorRefs>
                         <descriptorRef>jar-with-dependencies</descriptorRef>
@@ -41,12 +41,12 @@
         <dependency>
             <groupId>de.tc.cat.the</groupId>
             <artifactId>TCLib</artifactId>
-            <version>1.0.8</version>
+            <version>1.1.0</version>
         </dependency>
         <dependency>
             <groupId>net.lingala.zip4j</groupId>
             <artifactId>zip4j</artifactId>
-            <version>2.2.1</version>
+            <version>2.5.0</version>
         </dependency>
     </dependencies>
     <reporting>
@@ -61,7 +61,7 @@
         </plugins>
     </reporting>
     <properties>
-        <maven.compiler.source>13</maven.compiler.source>
-        <maven.compiler.target>13</maven.compiler.target>
+        <maven.compiler.source>14</maven.compiler.source>
+        <maven.compiler.target>14</maven.compiler.target>
     </properties>
 </project>

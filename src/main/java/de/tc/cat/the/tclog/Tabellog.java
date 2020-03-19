@@ -71,7 +71,7 @@ public class Tabellog {
         }
     }
     
-    public DefaultTableModel readTable()
+    /*public DefaultTableModel readTable()
     {
         DefaultTableModel dtm = new DefaultTableModel();
         SQLLite sql = new SQLLite();
@@ -112,7 +112,7 @@ public class Tabellog {
         dtm.addColumn("Type", Type.toArray());
         dtm.addColumn("Meldung", Meldung.toArray());
         return dtm;
-    }
+    }*/
     
     public ArrayList<String> readDatbase()
     {
