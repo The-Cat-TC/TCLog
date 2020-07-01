@@ -24,6 +24,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import net.lingala.zip4j.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
@@ -48,8 +50,8 @@ public class TCLogAction {
         try (BufferedWriter bw = new BufferedWriter(fw)) {
             log.createNewFile();
 
-            for (int i = 0; !T.readDatbase().isEmpty() && i < T.readDatbase().size(); i++) {
-                bw.write(T.readDatbase().get(i));
+            for (int i = 0; !T.readDatbase(false).isEmpty() && i < T.readDatbase(false).size(); i++) {
+                bw.write(T.readDatbase(false).get(i));
                 bw.newLine();
             }
             bw.close();
@@ -64,8 +66,8 @@ public class TCLogAction {
         try (BufferedWriter bw = new BufferedWriter(fw)) {
             log.createNewFile();
 
-            for (int i = 0; !T.readDatbase().isEmpty() && i < T.readDatbase().size(); i++) {
-                bw.write(T.readDatbase().get(i));
+            for (int i = 0; !T.readDatbase(false).isEmpty() && i < T.readDatbase(false).size(); i++) {
+                bw.write(T.readDatbase(false).get(i));
                 bw.newLine();
             }
             bw.close();
@@ -81,8 +83,8 @@ public class TCLogAction {
         try (BufferedWriter bw = new BufferedWriter(fw)) {
             log.createNewFile();
 
-            for (int i = 0; !T.readDatbase().isEmpty() && i < T.readDatbase().size(); i++) {
-                bw.write(T.readDatbase().get(i));
+            for (int i = 0; !T.readDatbase(false).isEmpty() && i < T.readDatbase(false).size(); i++) {
+                bw.write(T.readDatbase(false).get(i));
                 bw.newLine();
             }
             bw.close();
@@ -113,7 +115,13 @@ public class TCLogAction {
 
     protected void addLogEntryError(String user, String meldung) {
         T.log(userbegin);
-        T.log(Time.getDate(), Time.getTime(), user, "Info", meldung);
+        T.log(Time.getDate(), Time.getTime(), user, "Error", meldung);
+        T.log(userend);
+    }
+
+    protected void addLogEntryDebug(String user, String meldung) {
+        T.log(userbegin);
+        T.log(Time.getDate(), Time.getTime(), user, "Debug", meldung);
         T.log(userend);
     }
 

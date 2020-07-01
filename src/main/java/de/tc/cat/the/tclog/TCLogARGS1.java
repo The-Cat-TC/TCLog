@@ -17,11 +17,13 @@
 package de.tc.cat.the.tclog;
 
 import de.tc.cat.the.system.Time;
+import de.tc.cat.the.tclog.export.TCLog;
+
+import java.io.IOException;
+import java.sql.SQLException;
+
 import static de.tc.cat.the.tclog.ReadConsole.*;
 import static de.tc.cat.the.tclog.TCLogAction.T;
-import static de.tc.cat.the.tclog.TCLogConsoleInput.ExeceptionFilterDebug;
-import static de.tc.cat.the.util.ConsoleColorOut.*;
-import java.io.IOException;
 
 /**
  *
@@ -29,54 +31,33 @@ import java.io.IOException;
  */
 public class TCLogARGS1 {
 
-    public static void args1(String[] args) throws IOException {
-        String arg1 = args[0].replaceAll("[_[^\\w\\dƒ÷‹‰ˆ¸ñ\\+\\- ]]", "");
+    public static void args1(String[] args) throws IOException, SQLException {
+        String arg1 = args[0].replaceAll("[_[^\\w\\d‰ˆ¸ƒ÷‹ﬂ.:+  \\- ]]", "");
 
         if ("-d".contains(arg1) || "--debug".contains(arg1)) {
-            ExeceptionFilterDebug();
-        }
-        else if ("-v".contains(arg1) || "--version".contains(arg1))
-        {
-            printlnInfo("TCLog version 1.0.6");
-        }
-        else if ("-cl".equals(arg1) || "--clear-log".equals(arg1))
-        {
+            outDebug();
+        } else if ("-v".contains(arg1) || "--version".contains(arg1)) {
+            System.out.println("TCLog Version 1.0.8");
+        } else if ("-cl".equals(arg1) || "--clear-log".equals(arg1)) {
             new TCLogAction().clearLog();
-        }
-        else if ("-cz".equals(arg1) || "--clear-zip".equals(arg1))
-        {
+        } else if ("-cz".equals(arg1) || "--clear-zip".equals(arg1)) {
             new TCLogAction().clearLogFilesZip();
-        }
-        else if ("-cg".equals(arg1) || "--clear-gzip".equals(arg1))
-        {
+        } else if ("-cg".equals(arg1) || "--clear-gzip".equals(arg1)) {
             new TCLogAction().clearLogFilesGz();
-        }
-        else if ("-clf".equals(arg1) || "--create-logfile".equals(arg1))
-        {
+        } else if ("-clf".equals(arg1) || "--create-logfile".equals(arg1)) {
             new TCLogAction().createLog();
-        }
-         else if (arg1.equals("-i") || arg1.equals("--info"))
-        {
+        } else if (arg1.equals("-i") || arg1.equals("--info")) {
             outInfo();
-        }
-        else if(arg1.equals("-w") || arg1.equals("--warning"))
-        {
+        } else if (arg1.equals("-w") || arg1.equals("--warning")) {
             outWarning();
-        }
-        else if (arg1.equals("-e") || arg1.equals("--error"))
-        {
+        } else if (arg1.equals("-e") || arg1.equals("--error")) {
             outError();
-        }
-        else if(arg1.equals("-m") || arg1.equals("--mix"))
-        {
+        } else if (arg1.equals("-m") || arg1.equals("--mix")) {
             outDev();
-        }
-        else if (arg1.equals("-r") || arg1.equals("--read"))
-        {
+        } else if (arg1.equals("-r") || arg1.equals("--read")) {
             readConsole();
-        }
-        else
-        {
+        }  else {
+            TCLog.main(new String[]{});
             T.log(Time.getDate(), Time.getTime(), "TCLog", "Error", "Illegal Arguments for TCLog. Error 2");
         }
     }
