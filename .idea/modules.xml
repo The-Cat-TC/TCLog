@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/TCLog.iml" filepath="$PROJECT_DIR$/TCLog.iml" />
+      <module fileurl="file://$PROJECT_DIR$/target/maven-archiver/maven-archiver.iml" filepath="$PROJECT_DIR$/target/maven-archiver/maven-archiver.iml" />
     </modules>
   </component>
 </project>

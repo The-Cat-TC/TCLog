@@ -3,15 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
-module de.tc.cat.the.tclog {
+/**
+ * This is the log module. it contains the TCLog and all its functions.
+ * However, there is also the possibility of integrating the TCLog into other projects.
+ *
+ */
+module de.tc.cat.the.TCLog {
+    requires de.tc.cat.the.TCLib;
     requires org.fusesource.jansi;
     requires JCDP;
     requires java.base;
     requires java.se;
     requires zip4j;
-    requires de.tc.cat.the.TCLib;
-    
+    requires jdom2;
     exports de.tc.cat.the.tclog.export;
-    uses de.tc.cat.the.tclog.export.TCLog;
 }

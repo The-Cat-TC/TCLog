@@ -1,10 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>de.tc.cat.the</groupId>
     <artifactId>TCLog</artifactId>
-    <version>1.0.8</version>
+    <version>1.1.0</version>
     <packaging>jar</packaging>
+    <name>TCLib</name>
+    <url>https://www.the-cat-tc.de</url>
+    <description>
+        A Log viewer vor logs.
+    </description>
+    <developers>
+        <developer>
+            <url>https://www.the-cat-tc.de</url>
+            <name>Christian Trostmann</name>
+            <email>c.trostmann@the-cat-tc.de</email>
+            <organization>The Cat</organization>
+            <timezone>Central European Time/Mitteleuropäische Zeit(CET/MEZ)</timezone>
+            <roles>
+                <role>Project Manager</role>
+                <role>Scripter</role>
+                <role>Deployer</role>
+                <role>Tester</role>
+                <role>Publisher</role>
+            </roles>
+            <organizationUrl>https://www.the-cat-tc.de</organizationUrl>
+        </developer>
+    </developers>
+    <licenses>
+        <license>
+            <name>GPL3</name>
+            <url>https://www.gnu.org/licenses/gpl-3.0.txt</url>
+            <comments>GNU GENERAL PUBLIC LICENSE</comments>
+        </license>
+    </licenses>
+    <issueManagement>
+        <system>GitHub</system>
+        <url>https://github.com/The-Cat-TC/TCLog/issues</url>
+    </issueManagement>
+    <scm>
+        <connection>scm:git:ssh://git@github.com/github.com/The-Cat-TC/TCLog.git</connection>
+        <developerConnection>scm:git:ssh://git@https://github.com/The-Cat-TC/TCLog.git</developerConnection>
+        <url>https://github.com/The-Cat-TC/TCLog/tree/master</url>
+        <tag>HEAD</tag>
+    </scm>
+    <repositories>
+        <repository>
+            <id>TClog</id>
+            <name>TClog</name>
+            <url>https://maven.pkg.github.com/The-Cat-Tc/TCLog</url>
+        </repository>
+    </repositories>
+    <distributionManagement>
+        <repository>
+            <id>TClog</id>
+            <name>TClog</name>
+            <url>https://maven.pkg.github.com/The-Cat-Tc/TCLog</url>
+        </repository>
+    </distributionManagement>
     <build>
         <plugins>
             <plugin>
@@ -21,7 +75,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>de.tc.cat.the.tclog.export.TCLog</mainClass>
+                            <mainClass>de.tc.cat.the.tclog.TCLog</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -35,13 +89,84 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>dependencies</goal>
+                            <goal>plugins</goal>
+                            <goal>ci-management</goal>
+                            <goal>dependency-convergence</goal>
+                            <goal>dependency-info</goal>
+                            <goal>dependency-management</goal>
+                            <goal>distribution-management</goal>
+                            <goal>help</goal>
+                            <goal>index</goal>
+                            <goal>issue-management</goal>
+                            <goal>licenses</goal>
+                            <goal>mailing-lists</goal>
+                            <goal>modules</goal>
+                            <goal>plugin-management</goal>
+                            <goal>scm</goal>
+                            <goal>summary</goal>
+                            <goal>team</goal>
+                        </goals>
+                        <phase>validate</phase>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.2.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>jar</goal>
+                            <goal>javadoc</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.2.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                            <goal>test-jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>3.0.0-M1</version>
+            </plugin>
         </plugins>
     </build>
     <dependencies>
         <dependency>
             <groupId>de.tc.cat.the</groupId>
             <artifactId>TCLib</artifactId>
-            <version>1.1.1</version>
+            <version>1.1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jdom</groupId>
+            <artifactId>jdom2</artifactId>
+            <version>2.0.6</version>
+        </dependency>
+        <dependency>
+            <groupId>org.fusesource.jansi</groupId>
+            <artifactId>jansi</artifactId>
+            <version>1.18</version>
         </dependency>
         <dependency>
             <groupId>net.lingala.zip4j</groupId>
@@ -58,9 +183,35 @@
                     <configLocation>config/sun_checks.xml</configLocation>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.2.0</version>
+                <reportSets>
+                    <reportSet>
+                        <id>attach-sources</id>
+                        <reports>
+                            <report>fix</report>
+                            <report>jar</report>
+                            <report>javadoc</report>
+                        </reports>
+                    </reportSet>
+                    <reportSet>
+                        <id>html</id>
+                        <configuration>
+                            <doctitle>${project.name} ${project.version}</doctitle>
+                            <windowtitle>${project.name} ${project.version}</windowtitle>
+                        </configuration>
+                        <reports>
+                            <report>javadoc</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
         </plugins>
     </reporting>
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>14</maven.compiler.source>
         <maven.compiler.target>14</maven.compiler.target>
     </properties>
