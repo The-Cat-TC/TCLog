@@ -1,46 +1,29 @@
 package de.tc.cat.the.tclog.export;
 
-import de.tc.cat.the.sql.*;
-import de.tc.cat.the.system.*;
-import de.tc.cat.the.tclog.Firstrun;
-import de.tc.cat.the.tclog.TCLogARGS1;
-import de.tc.cat.the.tclog.Tabellog;
-import java.io.File;
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.SQLException;
-
-
 /**
+ * This is the log class from here all logs can be entered that are supported by the TCLog.
  *
- * @author the-c
+ * @author Christian Trostmann
+ * @version 1.9
+ * @since 8
  */
 public class TCLog {
 
     /**
+     * The main method takes over the log entry here all log commands are entered as a string array.
+     * <ol>
+     *     <li>First parameter date (optional)</li>
+     *     <li>Second parameter time (optional)</li>
+     *     <li>Third parameter by whom (required)</li>
+     *     <li>Fourth parameter log type (required)</li>
+     *     <li>Fifth parameter message (required)</li>
+     * </ol>
+     *
      * @param args the command line arguments
-     * @throws java.sql.SQLException
-     * @throws java.io.IOException
      */
-    public static void main(String[] args) throws SQLException, IOException {
+    public static void main(String[] args) {
         // TODO code application logic here
-        Firstrun.create();
-        Tabellog table = new Tabellog();
-        
-        switch(args.length)
-        {
-            case 3:
-                table.log(args);
-                break;
-            case 5:
-                table.log(args);
-                break;
-            case 1:
-                TCLogARGS1.args1(args);
-            default:
-                break;
-                
-        }
+        ExceptionFilter.exfilter(args);
     }
     
 }

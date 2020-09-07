@@ -8,6 +8,7 @@ package de.tc.cat.the.tclog;
 import de.tc.cat.the.sql.SQLLite;
 import de.tc.cat.the.system.Seperator;
 import de.tc.cat.the.system.Time;
+
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -24,15 +25,14 @@ public class Tabellog {
         SQLLite sqll = new SQLLite();
         Connection connn = sqll.connectetDatebase(dir, "TCLog");
         String sql = "INSERT INTO Log(Datum,Zeit,Application,Type,Meldung) VALUES(?,?,?,?,?)";
-        try (Connection conn = connn; PreparedStatement pstmt = conn.prepareStatement(sql);) {
+        try (Connection conn = connn; PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, datum);
             pstmt.setString(2, zeit);
             pstmt.setString(3, application);
             pstmt.setString(4, type);
             pstmt.setString(5, meldung);
             pstmt.executeUpdate();
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             System.err.print(e.getMessage() + "\n");
         }
     }
@@ -41,7 +41,7 @@ public class Tabellog {
         SQLLite sqll = new SQLLite();
         Connection connn = sqll.connectetDatebase(dir, "TCLog");
         String sql = "INSERT INTO Log(Datum,Zeit,Application,Type,Meldung) VALUES(?,?,?,?,?)";
-        try (Connection conn = connn; PreparedStatement pstmt = conn.prepareStatement(sql);) {
+        try (Connection conn = connn; PreparedStatement pstmt = conn.prepareStatement(sql)) {
             if (args.length == 3) {
                 pstmt.setString(1, Time.getDate());
                 pstmt.setString(2, Time.getTime());
@@ -57,7 +57,6 @@ public class Tabellog {
                 pstmt.setString(5, args[4].replaceAll("[_[^\\w\\däöüÄÖÜß.:\\+\\ - ]]", ""));
                 pstmt.executeUpdate();
             }
-
         }
         catch (SQLException e) {
             System.err.print(e.getMessage() + "\n");
@@ -102,13 +101,12 @@ public class Tabellog {
         Connection connn = sqll.connectetDatebase(dir, "TCLog");
         String sql = "DELETE FROM Log WHERE Id = ?";
         String sql2 = "SELECT Id FROM Log";
-        try (Connection conn = connn; PreparedStatement pstmt = conn.prepareStatement(sql); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql2);) {
+        try (Connection conn = connn; PreparedStatement pstmt = conn.prepareStatement(sql); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql2)) {
             while (rs.next()) {
                 pstmt.setInt(1, rs.getInt("Id"));
                 pstmt.executeUpdate();
             }
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             System.err.print(e.getMessage() + "\n");
         }
     }

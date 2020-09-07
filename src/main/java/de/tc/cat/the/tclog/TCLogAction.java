@@ -16,19 +16,19 @@
  */
 package de.tc.cat.the.tclog;
 
+import de.tc.cat.the.exception.FileTypeException;
 import de.tc.cat.the.system.GZip;
 import de.tc.cat.the.system.Seperator;
 import de.tc.cat.the.system.Time;
+import net.lingala.zip4j.ZipFile;
+import net.lingala.zip4j.exception.ZipException;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
-import net.lingala.zip4j.ZipFile;
-import net.lingala.zip4j.exception.ZipException;
 
 /**
  *
@@ -54,7 +54,6 @@ public class TCLogAction {
                 bw.write(T.readDatbase(false).get(i));
                 bw.newLine();
             }
-            bw.close();
         }
     }
 
@@ -62,6 +61,9 @@ public class TCLogAction {
         if (!Ordner.exists()) {
             Ordner.mkdirs();
         }
+        for (var f : Ordner.listFiles()) {
+            f.delete();
+        }
         FileWriter fw = new FileWriter(log);
         try (BufferedWriter bw = new BufferedWriter(fw)) {
             log.createNewFile();
@@ -70,14 +72,21 @@ public class TCLogAction {
                 bw.write(T.readDatbase(false).get(i));
                 bw.newLine();
             }
-            bw.close();
         }
         GZip.packen(log, Ordner.getPath() + System.getProperty("file.separator") + "log-" + new SimpleDateFormat("dd-MM-yyyy HH-mm-ss").format(new Date()));
     }
 
-    protected void clearLogFilesZip() throws IOException, ZipException {
+    protected void clearLogFilesZip() throws IOException, ZipException, FileTypeException {
         if (!Ordner.exists()) {
             Ordner.mkdirs();
+        }
+        for (File f : Ordner.listFiles()) {
+            if (f.isFile() && f.getName().endsWith(".zip")) {
+                f.delete();
+            } else if (f.isFile() && f.getName().endsWith(".gz")) {
+                GZip.entpacken(f);
+                f.delete();
+            }
         }
         FileWriter fw = new FileWriter(log);
         try (BufferedWriter bw = new BufferedWriter(fw)) {
@@ -87,7 +96,6 @@ public class TCLogAction {
                 bw.write(T.readDatbase(false).get(i));
                 bw.newLine();
             }
-            bw.close();
         }
         ZipFile zf = new ZipFile(Ordner.getPath() + System.getProperty("file.separator") + "log-" + new SimpleDateFormat("dd-MM-yyyy HH-mm-ss").format(new Date()) + ".zip");
         zf.addFolder(Ordner);
@@ -98,37 +106,6 @@ public class TCLogAction {
                 f.delete();
             }
         }
-
-    }
-
-    protected void addLogEntryInfo(String user, String meldung) {
-        T.log(userbegin);
-        T.log(Time.getDate(), Time.getTime(), user, "Info", meldung);
-        T.log(userend);
-    }
-
-    protected void addLogEntryWarn(String user, String meldung) {
-        T.log(userbegin);
-        T.log(Time.getDate(), Time.getTime(), user, "Warning", meldung);
-        T.log(userend);
-    }
-
-    protected void addLogEntryError(String user, String meldung) {
-        T.log(userbegin);
-        T.log(Time.getDate(), Time.getTime(), user, "Error", meldung);
-        T.log(userend);
-    }
-
-    protected void addLogEntryDebug(String user, String meldung) {
-        T.log(userbegin);
-        T.log(Time.getDate(), Time.getTime(), user, "Debug", meldung);
-        T.log(userend);
-    }
-
-    protected void addLogEntryDev(String user, String status, String meldung) {
-        T.log(userbegin);
-        T.log(Time.getDate(), Time.getTime(), user, status, meldung);
-        T.log(userend);
     }
 
     protected void clearLog() {

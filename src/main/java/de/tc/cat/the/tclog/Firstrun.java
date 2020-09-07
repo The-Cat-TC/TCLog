@@ -31,6 +31,5 @@ public class Firstrun {
         try (Connection conn = sqlite.connectetDatebase(Path, Name)) {
             sqlite.createTabel(Path, Name, sql);
         }
-
     }
 }

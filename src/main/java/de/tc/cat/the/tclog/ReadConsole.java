@@ -18,8 +18,10 @@ package de.tc.cat.the.tclog;
 
 import com.diogonunes.jcdp.color.ColoredPrinter;
 import com.diogonunes.jcdp.color.api.Ansi;
+import de.tc.cat.the.exception.FileTypeException;
 import de.tc.cat.the.system.Time;
 import de.tc.cat.the.tclog.export.TCLog;
+import org.jdom2.JDOMException;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -156,12 +158,12 @@ public class ReadConsole {
         }
     }
 
-    private static String readType(String type)
-    {
+    private static String readType(String type) {
         String[] split = type.split("\t");
         return split[4];
     }
-    public static void log(String from,String type,String msg) throws IOException, SQLException {
-        TCLog.main(new String[] {Time.getDate(),Time.getTime(),from,type,msg});
+
+    public static void log(String from, String type, String msg) throws IOException, SQLException, FileTypeException, JDOMException {
+        TCLog.main(new String[]{Time.getDate(), Time.getTime(), from, type, msg});
     }
 }

@@ -16,8 +16,10 @@
  */
 package de.tc.cat.the.tclog;
 
+import de.tc.cat.the.exception.FileTypeException;
 import de.tc.cat.the.system.Time;
 import de.tc.cat.the.tclog.export.TCLog;
+import org.jdom2.JDOMException;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -26,18 +28,17 @@ import static de.tc.cat.the.tclog.ReadConsole.*;
 import static de.tc.cat.the.tclog.TCLogAction.T;
 
 /**
- *
  * @author the-c
  */
 public class TCLogARGS1 {
 
-    public static void args1(String[] args) throws IOException, SQLException {
-        String arg1 = args[0].replaceAll("[_[^\\w\\d‰ˆ¸ƒ÷‹ﬂ.:+  \\- ]]", "");
+    public static void args1(String[] args) throws IOException, SQLException, FileTypeException, JDOMException {
+        String arg1 = args[0].replaceAll("[_[^\\w\\d√§√∂√º√Ñ√ñ√ú.:+  \\- ]]", "");
 
         if ("-d".contains(arg1) || "--debug".contains(arg1)) {
             outDebug();
         } else if ("-v".contains(arg1) || "--version".contains(arg1)) {
-            System.out.println("TCLog Version 1.0.8");
+            System.out.println("TCLog Version 1.0.9");
         } else if ("-cl".equals(arg1) || "--clear-log".equals(arg1)) {
             new TCLogAction().clearLog();
         } else if ("-cz".equals(arg1) || "--clear-zip".equals(arg1)) {
