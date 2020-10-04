@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>de.tc.cat.the</groupId>
     <artifactId>TCLog</artifactId>
-    <version>1.1.0</version>
+    <version>1.0.9</version>
     <packaging>jar</packaging>
     <name>TCLib</name>
     <url>https://www.the-cat-tc.de</url>
@@ -75,7 +75,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>de.tc.cat.the.tclog.TCLog</mainClass>
+                            <mainClass>de.tc.cat.the.tclog.export.TCLog</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -156,22 +156,17 @@
         <dependency>
             <groupId>de.tc.cat.the</groupId>
             <artifactId>TCLib</artifactId>
-            <version>1.1.2</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jdom</groupId>
-            <artifactId>jdom2</artifactId>
-            <version>2.0.6</version>
-        </dependency>
-        <dependency>
-            <groupId>org.fusesource.jansi</groupId>
-            <artifactId>jansi</artifactId>
-            <version>1.18</version>
+            <version>1.1.1</version>
         </dependency>
         <dependency>
             <groupId>net.lingala.zip4j</groupId>
             <artifactId>zip4j</artifactId>
             <version>2.5.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jdom</groupId>
+            <artifactId>jdom2</artifactId>
+            <version>2.0.6</version>
         </dependency>
     </dependencies>
     <reporting>
@@ -211,7 +206,6 @@
         </plugins>
     </reporting>
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>14</maven.compiler.source>
         <maven.compiler.target>14</maven.compiler.target>
     </properties>
