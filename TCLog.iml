@@ -10,11 +10,28 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Maven: de.tc.cat.the:TCLib:1.1.1" level="project" />
+    <orderEntry type="library" name="Maven: de.elnarion.maven:plantuml-generator-maven-plugin:1.1.2" level="project" />
+    <orderEntry type="library" name="Maven: commons-io:commons-io:2.6" level="project" />
+    <orderEntry type="library" name="Maven: de.elnarion.util:plantuml-generator-util:1.1.2" level="project" />
+    <orderEntry type="library" name="Maven: io.github.classgraph:classgraph:4.8.47" level="project" />
+    <orderEntry type="library" name="Maven: com.github.jeluard:plantuml-maven-plugin:1.2" level="project" />
+    <orderEntry type="library" name="Maven: net.sourceforge.plantuml:plantuml:8031" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.maven:maven-plugin-api:3.0.4" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.maven:maven-artifact:3.0.4" level="project" />
+    <orderEntry type="library" name="Maven: org.sonatype.sisu:sisu-inject-plexus:2.3.0" level="project" />
+    <orderEntry type="library" name="Maven: org.codehaus.plexus:plexus-component-annotations:1.5.5" level="project" />
+    <orderEntry type="library" name="Maven: org.codehaus.plexus:plexus-classworlds:2.4" level="project" />
+    <orderEntry type="library" name="Maven: org.sonatype.sisu:sisu-inject-bean:2.3.0" level="project" />
+    <orderEntry type="library" name="Maven: org.sonatype.sisu:sisu-guice:no_aop:3.1.0" level="project" />
+    <orderEntry type="library" name="Maven: org.sonatype.sisu:sisu-guava:0.9.9" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.maven:maven-model:3.0.4" level="project" />
+    <orderEntry type="library" name="Maven: org.codehaus.plexus:plexus-utils:3.0.8" level="project" />
     <orderEntry type="library" name="Maven: org.fusesource.jansi:jansi:1.18" level="project" />
     <orderEntry type="library" name="Maven: com.diogonunes:JCDP:4.0.1" level="project" />
     <orderEntry type="library" name="Maven: net.java.dev.jna:jna:5.5.0" level="project" />
     <orderEntry type="library" name="Maven: net.java.dev.jna:jna-platform:5.5.0" level="project" />
     <orderEntry type="library" name="Maven: org.xerial:sqlite-jdbc:3.30.1" level="project" />
     <orderEntry type="library" name="Maven: net.lingala.zip4j:zip4j:2.5.0" level="project" />
+    <orderEntry type="library" name="Maven: org.jdom:jdom2:2.0.6" level="project" />
   </component>
 </module>
