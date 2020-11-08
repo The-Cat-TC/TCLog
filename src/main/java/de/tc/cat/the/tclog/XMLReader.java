@@ -1,125 +1,124 @@
+/*
+ * Copyright (c) 2018 - 2020 The Cat.
+ */
+
 package de.tc.cat.the.tclog;
 
-import de.tc.cat.the.system.FileRecursive;
-import de.tc.cat.the.system.Seperator;
-import de.tc.cat.the.tclog.export.Log;
+import de.tc.cat.the.tclog.export.ChckLogType;
 import de.tc.cat.the.tclog.export.LogType;
+import de.tc.cat.the.util.ConsoleColorOut;
 import org.jdom2.Attribute;
 import org.jdom2.Document;
 import org.jdom2.Element;
+import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.IOException;
 
 public class XMLReader {
 
-    private final List<Element> error = new ArrayList<>();
-    private final List<Element> warning = new ArrayList<>();
-    private final List<Element> info = new ArrayList<>();
-    private final List<Element> debug = new ArrayList<>();
-    private final List<Element> unknow = new ArrayList<>();
-    private final String sep = Seperator.fileseperator();
-    private final String home = System.getProperty("user.home") + sep + ".TC" + sep + "log";
-    private final File log = new File(home + sep);
+    private static boolean logtype = false;
+    private static boolean error = false;
+    private static boolean warning = false;
+    private static boolean info = false;
+    private static boolean debug = false;
+    private static boolean unkonw = false;
 
-    public XMLReader(File f) {
-        try {
-            if (!f.exists()) {
-                throw new FileNotFoundException(f.getAbsolutePath() + "is not exist.");
-            }
-            SAXBuilder sax = new SAXBuilder();
-            Document doc = sax.build(f);
 
-            for (Element elm : doc.getRootElement().getChildren()) {
-                if (elm.getName().equals("log")) {
-                    checkType(elm);
-                }
-            }
-        } catch (Exception ex) {
-            Log.addException(ex);
+    public static void read(File f) throws JDOMException, IOException {
+        Document doc = new SAXBuilder().build(f);
+        for (Element elm : doc.getRootElement().getChildren()) {
+            out(elm);
         }
     }
 
-    public XMLReader() {
-        try {
-            FileRecursive fr = new FileRecursive(log);
-            for (String s : fr.file()) {
-                File f = new File(s);
-                if (!f.exists()) {
-                    throw new FileNotFoundException(f.getAbsolutePath() + "is not exist.");
-                }
-                SAXBuilder sax = new SAXBuilder();
-                Document doc = sax.build(f);
-
-                for (Element elm : doc.getRootElement().getChildren()) {
-                    if (elm.getName().equals("log")) {
-                        checkType(elm);
-                    }
-                }
-            }
-        } catch (Exception ex) {
-            Log.addException(ex);
-        }
+    private static boolean checkLogType(Attribute att) {
+        return att.getName().equals("LogType");
     }
 
-    private void checkType(Element elm) {
+    private static boolean checkError(String logtype) {
+        return ChckLogType.check(logtype) == LogType.Error;
+    }
+
+    private static boolean checkWarning(String logtype) {
+        return ChckLogType.check(logtype) == LogType.Warning;
+    }
+
+    private static boolean checkDebug(String logtype) {
+        return ChckLogType.check(logtype) == LogType.Debug;
+    }
+
+    private static boolean checkInfo(String logtype) {
+        return ChckLogType.check(logtype) == LogType.Info;
+    }
+
+    private static boolean checkUnknow(String logtype) {
+        return ChckLogType.check(logtype) == LogType.Unknow;
+    }
+
+    private static void out(Element elm) {
         for (Attribute att : elm.getAttributes()) {
-            if (att.getName().equals("LogType")) {
-                if (att.getValue().equals(LogType.Error.name())) {
-                    error.add(elm);
-                } else if (att.getValue().equals(LogType.Warning.name())) {
-                    warning.add(elm);
-                } else if (att.getValue().equals(LogType.Info.name())) {
-                    info.add(elm);
-                } else if (att.getValue().equals(LogType.Debug.name())) {
-                    debug.add(elm);
-                } else {
-                    unknow.add(elm);
-                }
+            if (!checkLogType(att)) {
+                continue;
+            } else {
+                logtype = checkLogType(att);
+                error = checkError(att.getValue());
+                info = checkInfo(att.getValue());
+                warning = checkWarning(att.getValue());
+                debug = checkDebug(att.getValue());
+                unkonw = checkUnknow(att.getValue());
             }
+        }
+
+        if (logtype && error) {
+            outError(elm);
+        } else if (logtype && warning) {
+            outWarning(elm);
+        } else if (logtype && info) {
+            outInfo(elm);
+        } else if (logtype && debug) {
+            outDebug(elm);
+        } else if (logtype && unkonw) {
+            outUnknow(elm);
+        } else {
+            ConsoleColorOut.printlnInfo("Unknow LogMessage.");
+        }
+        error = false;
+        warning = false;
+        debug = false;
+        info = false;
+        unkonw = false;
+        logtype = false;
+    }
+
+    private static void outError(Element elm) {
+        for (Attribute att : elm.getAttributes()) {
+            ConsoleColorOut.printlnError(att.getName() + ": " + att.getValue());
         }
     }
 
-    public void getDebug() {
-        for (Element elm : debug) {
-            for (Attribute att : elm.getAttributes()) {
-                ReadConsole.deb(att.getName() + ": " + att.getValue());
-            }
+    private static void outDebug(Element elm) {
+        for (Attribute att : elm.getAttributes()) {
+            ConsoleColorOut.printlnDebug(att.getName() + ": " + att.getValue());
         }
     }
 
-    public void getError() {
-        for (Element elm : error) {
-            for (Attribute att : elm.getAttributes()) {
-                ReadConsole.err(att.getName() + ": " + att.getValue());
-            }
+    private static void outInfo(Element elm) {
+        for (Attribute att : elm.getAttributes()) {
+            ConsoleColorOut.printlnInfo(att.getName() + ": " + att.getValue());
         }
     }
 
-    public void getInfo() {
-        for (Element elm : info) {
-            for (Attribute att : elm.getAttributes()) {
-                ReadConsole.inf(att.getName() + ": " + att.getValue());
-            }
+    private static void outWarning(Element elm) {
+        for (Attribute att : elm.getAttributes()) {
+            ConsoleColorOut.printlnWarning(att.getName() + ": " + att.getValue());
         }
     }
 
-    public void getUnknow() {
-        for (Element elm : unknow) {
-            for (Attribute att : elm.getAttributes()) {
-                ReadConsole.unk(att.getName() + ": " + att.getValue());
-            }
-        }
-    }
-
-    public void getWarning() {
-        for (Element elm : warning) {
-            for (Attribute att : elm.getAttributes()) {
-                ReadConsole.war(att.getName() + ": " + att.getValue());
-            }
+    private static void outUnknow(Element elm) {
+        for (Attribute att : elm.getAttributes()) {
+            ConsoleColorOut.printlnUnknow(att.getName() + ": " + att.getValue());
         }
     }
 }

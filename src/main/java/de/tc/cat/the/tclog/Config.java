@@ -1,24 +1,29 @@
-package de.tc.cat.the.tclog;
+/*
+ * Copyright (c) 2018 - 2020 The Cat.
+ */
 
-import de.tc.cat.the.util.Configuration;
+package de.tc.cat.the.tclog;
 
 import java.awt.*;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Properties;
 
 import static de.tc.cat.the.tclog.StaticVariable.*;
 
 public class Config {
-    private static final Configuration conf = new Configuration();
+    private static final Properties conf = new Properties();
 
-    public static void saveConfig(File f, String key, String value, boolean save) throws IOException {
-        conf.saveSetting(f, key, value, "", save);
+    public static void saveConfig(File f, String key, String value, String comment) throws IOException {
+        conf.setProperty(key, value);
+        conf.storeToXML(new FileOutputStream(f), comment);
     }
 
     public static String loadConfig(File f, String key) throws IOException {
-
-        Configuration conf = new Configuration();
-        return conf.loadSetting(f, key);
+        conf.loadFromXML(new FileInputStream(f));
+        return conf.getProperty(key);
     }
 
     protected static void firstConfig() throws IOException {
@@ -33,16 +38,16 @@ public class Config {
         String cb = Integer.toHexString(color(new Color(77, 121, 255)).getRGB()).substring(2).replaceAll("[_[^\\w\\d]]", "");
         String hb = Integer.toHexString(color(new Color(102, 179, 255)).getRGB()).substring(2).replaceAll("[_[^\\w\\d]]", "");
 
-        saveConfig(StaticVariable.conf, bgcolor, "#" + gr, true);
-        saveConfig(StaticVariable.conf, fgcolor, "#" + bl, true);
-        saveConfig(StaticVariable.conf, ercolor, "#" + re, true);
-        saveConfig(StaticVariable.conf, wacolor, "#" + yl, true);
-        saveConfig(StaticVariable.conf, incolor, "#" + bl, true);
-        saveConfig(StaticVariable.conf, uncolor, "#" + cb, true);
-        saveConfig(StaticVariable.conf, decolor, "#" + mg, true);
-        saveConfig(StaticVariable.conf, excolor, "#" + re, true);
-        saveConfig(StaticVariable.conf, linkColor, "#" + hb, true);
-        saveConfig(StaticVariable.conf, unlinkColor, "#" + hb, true);
+        saveConfig(StaticVariable.conf, bgcolor, "#" + gr, "");
+        saveConfig(StaticVariable.conf, fgcolor, "#" + bl, "");
+        saveConfig(StaticVariable.conf, ercolor, "#" + re, "");
+        saveConfig(StaticVariable.conf, wacolor, "#" + yl, "");
+        saveConfig(StaticVariable.conf, incolor, "#" + bl, "");
+        saveConfig(StaticVariable.conf, uncolor, "#" + cb, "");
+        saveConfig(StaticVariable.conf, decolor, "#" + mg, "");
+        saveConfig(StaticVariable.conf, excolor, "#" + re, "");
+        saveConfig(StaticVariable.conf, linkColor, "#" + hb, "");
+        saveConfig(StaticVariable.conf, unlinkColor, "#" + hb, "");
 
     }
 }

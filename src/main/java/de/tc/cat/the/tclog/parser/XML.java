@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2018 - 2020 The Cat.
+ */
+
 package de.tc.cat.the.tclog.parser;
 
 
@@ -14,22 +18,17 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.List;
 
 import static de.tc.cat.the.tclog.StaticVariable.sep;
 
 public class XML {
 
-    public static final List<Element> link = new ArrayList<Element>();
     private final String user = System.getProperty("user.name");
     private final String homeLOG = System.getProperty("user.home") + sep + ".TC" + sep + "log";
-    private final String logname = "log.tclog";
     private final String date = Time.getDate();
-    private final String exceptiondir = "exceptions";
-    private final File Exdir = new File(homeLOG + sep + date);
-    private final File log = new File(homeLOG + sep + date + sep + logname);
+    private final String logname = date + ".tclog";
+    private final File Exdir = new File(homeLOG + sep + "log");
+    private final File log = new File(homeLOG + sep + "log" + sep + logname);
     private ProcessHandle pr;
     private Thread th;
     private String from;
@@ -38,7 +37,6 @@ public class XML {
     private LogType logtype;
     private String msg;
     private Document doc;
-    private Document exd;
 
     public XML(Thread th, ProcessHandle pr) {
         this.pr = pr;
@@ -52,7 +50,6 @@ public class XML {
 
     private void initClass() {
         doc = new Document();
-        exd = new Document();
         Element root = new Element("tclog");
         doc.setRootElement(root);
 
@@ -81,69 +78,16 @@ public class XML {
         e1.setAttribute("Thread", th.getName());
         e1.setAttribute("PID", String.valueOf(pr.pid()));
         e1.setAttribute("Message", msg);
-        if (!link.isEmpty()) {
-            Element ex = new Element("exceptions");
-            for (Element elm : link) {
-                ex.addContent(elm);
-            }
-            e1.addContent(ex);
-        }
         if (log.exists()) {
             SAXBuilder build = new SAXBuilder();
             doc = build.build(log);
             doc.getRootElement().addContent(e1);
             writeXML(doc, log);
-            link.clear();
         } else {
             doc.getRootElement().addContent(e1);
             writeXML(doc, log);
-            link.clear();
         }
 
-
-    }
-
-    private File writeException(Exception ex) {
-        exd.setRootElement(new Element(exceptiondir));
-        Element e1 = new Element(StringCleaner(ex.toString()));
-        for (StackTraceElement ste : ex.getStackTrace()) {
-            Element cln = new Element("Class-Name");
-            Element cll = new Element("Class-Loader");
-            Element fln = new Element("File-Name");
-            Element mtn = new Element("Method-Name");
-            Element mdn = new Element("Module-Name");
-            Element mdv = new Element("Module-Version");
-            Element lin = new Element("Line-Number");
-            Element bli = new Element("finished-reading-of-exception-in-class");
-            cln.setText(ste.getClassName());
-            cll.setText(ste.getClassLoaderName());
-            fln.setText(ste.getFileName());
-            mtn.setText(ste.getMethodName());
-            mdn.setText(ste.getModuleName());
-            mdv.setText(ste.getModuleVersion());
-            lin.setText(String.valueOf(ste.getLineNumber()));
-            e1.addContent(cln);
-            e1.addContent(cll);
-            e1.addContent(fln);
-            e1.addContent(mtn);
-            e1.addContent(mdn);
-            e1.addContent(mdv);
-            e1.addContent(lin);
-            e1.addContent(bli);
-        }
-        exd.getRootElement().addContent(e1);
-        int i = 0;
-        File exn = new File(Exdir + sep + StringCleaner(ex.toString()) + ".exception" + i);
-        while (exn.exists()) {
-            exn = new File(Exdir + sep + StringCleaner(ex.toString()) + ".exception" + i);
-            if (!exn.exists()) {
-                break;
-            }
-            i = i + 1;
-
-        }
-        writeXML(exd, exn);
-        return exn;
 
     }
 
@@ -181,33 +125,10 @@ public class XML {
             this.msg = msg;
             this.logtype = logType;
             writeLog();
-        } catch (UnknownHostException e) {
-            return e;
-        } catch (IOException e) {
-            return e;
-        } catch (JDOMException e) {
+        } catch (Exception e) {
             return e;
         }
         return null;
-    }
-
-    public void addException(Exception ex) {
-        Element elm = new Element(writeException(ex).getName());
-        link.add(elm);
-    }
-
-    private String StringCleaner(String string) {
-        String s;
-        if (string.indexOf(" ") == -1 || string.indexOf(":") == -1) {
-            s = string;
-        } else if (string.indexOf(":") != -1) {
-            s = string.substring(0, string.indexOf(":"));
-        } else if (string.indexOf(" ") != -1) {
-            s = string.substring(0, string.indexOf(" "));
-        } else {
-            s = string;
-        }
-        return s;
     }
 
 }
