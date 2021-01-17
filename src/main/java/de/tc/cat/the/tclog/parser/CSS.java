@@ -12,10 +12,10 @@ import static de.tc.cat.the.tclog.StaticVariable.*;
 public class CSS {
 
     public static void CSS() throws IOException {
-        if (!new File(homeCSS + sep + "html" + sep + "css" + sep).exists()) {
-            new File(homeCSS + sep + "html" + sep + "css" + sep).mkdirs();
+        if (!new File(homeHTML + sep + "html" + sep + "css" + sep).exists()) {
+            new File(homeHTML + sep + "html" + sep + "css" + sep).mkdirs();
         }
-        File style = new File(homeCSS + sep + "html" + sep + "css" + sep + "style.css");
+        File style = new File(homeHTML + sep + "html" + sep + "css" + sep + "style.css");
         if (style.exists()) {
             style.deleteOnExit();
         }

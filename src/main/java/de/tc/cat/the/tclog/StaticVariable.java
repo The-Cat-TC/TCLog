@@ -9,7 +9,6 @@ import java.io.File;
 
 public class StaticVariable {
     public static final String sep = Seperator.fileseperator();
-    public static final String homeCSS = System.getProperty("user.home") + sep + ".TC" + sep + "log";
     public static final String homeHTML = System.getProperty("user.home") + sep + ".TC" + sep + "log";
     public static final File log = new File(homeHTML + sep);
     public static final String homeCONF = System.getProperty("user.home") + sep + ".TC" + sep + "config" + sep;

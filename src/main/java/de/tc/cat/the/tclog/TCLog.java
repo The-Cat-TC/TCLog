@@ -4,18 +4,21 @@
 
 package de.tc.cat.the.tclog;
 
-import de.tc.cat.the.tclog.export.Log;
-import de.tc.cat.the.tclog.export.LogType;
-import de.tc.cat.the.tclog.parser.HTML;
-import de.tc.cat.the.tclog.parser.XML;
+import static de.tc.cat.the.tclog.StaticVariable.confDir;
+import static de.tc.cat.the.tclog.StaticVariable.homeHTML;
+import static de.tc.cat.the.tclog.StaticVariable.sep;
+import static de.tc.cat.the.tclog.StaticVariable.xml;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import static de.tc.cat.the.tclog.StaticVariable.*;
-
+import de.tc.cat.the.tclog.export.Log;
+import de.tc.cat.the.tclog.export.LogType;
+import de.tc.cat.the.tclog.parser.XML;
+import de.tc.cat.the.util.ConsoleColorOut;
+@SuppressWarnings({"resource"})
 public class TCLog {
 
 
@@ -34,14 +37,12 @@ public class TCLog {
     }
 
     public static void main(String[] args) {
-        // TODO code application logic here
         try {
             if (!confDir.exists()) {
                 confDir.mkdirs();
             }
             Config.firstConfig();
-
-            HTML.HTML();
+            action();
 
             read();
 
@@ -95,7 +96,7 @@ public class TCLog {
         }
     }
 
-    private static void editFile(File file) throws Exception {
+	private static void editFile(File file) throws Exception {
         Scanner scn = new Scanner(System.in);
         while (true) {
             System.out.println("Select Action from Log.");
@@ -115,6 +116,30 @@ public class TCLog {
                     break;
                 default:
                     continue;
+            }
+        }
+    }
+
+    private static void  action() {
+        boolean loop = true;
+        while (loop) {
+            ConsoleColorOut.printlnInfo("Wählen sie eine Action:");
+            ConsoleColorOut.printlnInfo("(0) Exit");
+            ConsoleColorOut.printlnInfo("(1) HTML Export");
+            ConsoleColorOut.printlnInfo("(2) SQL Export");
+            ConsoleColorOut.printlnInfo("(3) HTML und SQL Export");
+            Scanner scr = new Scanner(System.in);
+
+            int i = scr.nextInt();
+
+            switch (i) {
+                case 0: loop = false; break;
+                case 1: Log.exportHTML(); break;
+                case 2: Log.exportSQL(); break;
+                case 3: Log.exportHTML(); Log.exportSQL(); break;
+                default:
+                    ConsoleColorOut.printlnError("Die Eingabe war nicht korrekt.");
+                    break;
             }
         }
     }

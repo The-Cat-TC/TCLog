@@ -4,6 +4,7 @@
 
 package de.tc.cat.the.tclog.export;
 
+import de.tc.cat.the.tclog.Command;
 import de.tc.cat.the.tclog.TCLog;
 
 /**
@@ -87,6 +88,23 @@ public class Log {
      * Experts the log as HTML output.
      */
     public static void exportHTML() {
-        TCLog.main(new String[]{"--export-html"});
+        Command cmd = new Command(new String[]{"--export-html"});
+        try {
+            cmd.cmd();
+        } catch (Exception e) {
+            log("TCLog",e);
+        }
+    }
+
+    /**
+     * Experts the log as SQL output.
+     */
+    public static void exportSQL() {
+        Command cmd = new Command(new String[]{"--export-sql"});
+        try {
+            cmd.cmd();
+        } catch (Exception e) {
+            log("TCLog",e);
+        }
     }
 }
