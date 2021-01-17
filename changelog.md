@@ -14,3 +14,8 @@
 * Read function improved 
 * API interface added 
 * JavaDoc updated
+
+## Version 1.1.2
+* Javadoc Update
+* now with uml diagramm
+* new module name
