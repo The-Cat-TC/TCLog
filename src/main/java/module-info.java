@@ -14,7 +14,7 @@ module thecat.TCLog {
     requires JCDP;
     requires java.base;
     requires java.se;
-    requires de.tc.cat.the.TCLib;
+    requires thecat.TCLib;
     requires jdom2;
     requires java.desktop;
     exports de.tc.cat.the.tclog.export;
